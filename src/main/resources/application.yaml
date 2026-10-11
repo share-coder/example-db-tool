@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: example-db-tool
+  flyway:
+    # This property enables or disables Flyway migrations.
+    # Setting it to true means that Flyway will automatically run migrations on application startup.
+    enabled: true
+
+    # When set to true, Flyway will validate the applied migrations against the available migration scripts
+    # every time a migration is performed.
+    # This helps ensure that the database schema matches what is defined in your migration files.
+    validate-on-migrate: true
+
+    # If you are starting to use Flyway on an existing database,
+    # this property allows you to set a baseline version for your migrations.
+    # Setting it to true tells Flyway to mark the existing schema as the baseline.
+    # This means it won't attempt to run migrations for changes that have already been applied before Flyway was introduced.
+    baseline-on-migrate: true # If you have an existing database and start using Flyway for new database changes.
+
+    # Flyway will mark this version as applied, allowing you to start applying new migrations from this point onward.
+    #This means that Flyway will consider any migrations with a version lower than or equal to 0 as already applied.
+    baseline-version: 0
+
+    # This specifies the locations where Flyway will look for migration scripts.
+    #In this case, it looks in the db/migration directory under the src/main/resources directory.
+    # Migration scripts should follow the naming convention (like V1__description.sql) to be recognized by Flyway.
+    locations: classpath:db/migration
+
+    # When set to true, this property instructs Flyway to validate the naming of migration files
+    # against its naming conventions.
+    # If a migration script does not follow the expected format (e.g., it should start with "V" followed by a version number),
+    # Flyway will fail to start.
+    validate-migration-naming: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/example_db
+    username: example
+    password: example
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+logging:
+  level:
+    ROOT: info
+    org.flywaydb: debug
+    org.hibernate.tool.hbm2ddl: info
